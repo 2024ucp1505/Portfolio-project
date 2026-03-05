@@ -1006,6 +1006,17 @@ footer ul li a:hover {
   footer ul li a {
     padding: 0.4rem;
   }
+
+  /* Stack footer items vertically on very small screens */
+  footer .container {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  footer ul {
+    justify-content: center;
+  }
 }
 
 /* Form Status Messages */
