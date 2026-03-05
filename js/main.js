@@ -28,30 +28,32 @@ const revealElements = () => {
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 };
 
-const projects = [{
-    title: "EcoTrack",
-    description: "A sustainable habit tracker that helps users reduce their carbon footprint through gamified tasks and data-driven insights.",
-    imageUrl: "./images/project-placeholder-1.jpg",
-    liveUrl: "#",
-    codeUrl: "#",
-    tech: ["React", "Node.js", "MongoDB"]
+const projects = [
+  {
+    title: "QR Attendance",
+    description: "A proxy-resistant, location-aware attendance system using geofencing and browser fingerprinting to ensure attendance integrity.",
+    imageUrl: "./images/project-placeholder-1.png",
+    liveUrl: "https://qr-attendance-1.vercel.app/",
+    codeUrl: "https://github.com/2024ucp1505/QR-Based-Attendance-system",
+    tech: ["React", "Node.js", "Express", "Geofencing"]
   }, 
   {
-    title: "ZenSpace",
-    description: "A minimalist meditation and productivity app featuring ambient soundscapes and integrated focus timers.",
-    imageUrl: "./images/project-placeholder-2.jpg",
-    liveUrl: "#",
-    codeUrl: "#",
-    tech: ["Next.js", "Tailwind", "Framer Motion"]
+    title: "Luxora",
+    description: "A full-featured property listing platform (Airbnb clone) with secure authentication, interactive maps, and cloud image management.",
+    imageUrl: "./images/project-placeholder-2.png",
+    liveUrl: "https://luxora-362e.onrender.com/listings",
+    codeUrl: "https://github.com/2024ucp1505/Luxora",
+    tech: ["Node.js", "Express", "MongoDB", "Cloudinary"]
   },
   {
-    title: "VaultUI",
-    description: "A comprehensive design system and component library built for financial applications requiring high security.",
-    imageUrl: "./images/project-placeholder-3.jpg",
+    title: "CloutFutures",
+    description: "A hybrid Web2/Web3 platform for creators and fans, utilizing smart contracts on the Monad (EVM) blockchain and IPFS storage.",
+    imageUrl: "./images/project-placeholder-3.png",
     liveUrl: "#",
-    codeUrl: "#",
-    tech: ["TypeScript", "Storybook", "CSS Modules"]
-  }];
+    codeUrl: "https://github.com/2024ucp1505/CloutFutures",
+    tech: ["React", "Monad", "EVM", "Smart Contracts"]
+  }
+];
 
 const renderProjects = () => {
     const projectContainer = document.querySelector('.projects-container');
