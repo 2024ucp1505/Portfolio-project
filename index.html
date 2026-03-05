@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lokesh Saini - Web Developer</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#">Home</a>
+                    </li>
+                    <li>
+                        <a href="#about">About</a>
+                    </li>
+                    <li>
+                        <a href="#projects">Projects</a>
+                    </li>
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <!-- These spans will be styled with CSS to create the three "bars" of the icon. -->
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <div class="theme-switcher">
+                <!-- 
+                The <label> provides an accessible name for the control and makes the entire
+                visual switch clickable. The 'for' attribute links it to the input's 'id'.
+            -->
+                <label for="theme-toggle" class="switch-label">
+                    <!-- We will visually hide the checkbox but keep it for functionality and accessibility. -->
+                    <input type="checkbox" id="theme-toggle" class="switch-checkbox" />
+                    <!-- This span will be styled with CSS to look like the track and thumb of a slider. -->
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+    </header>
+
+    <section id="hero">
+        <div class="container">
+            <h1>Lokesh saini</h1>
+            <p class="hero-subtitle">Creative Web Developer & UI/UX Enthusiast</p>
+            <p>
+                I design and build beautiful, responsive, and user-friendly websites
+                and applications.
+            </p>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="images/profile-picture.jpeg" alt="My image" />
+                </div>
+                <div class="about-text">
+                    <p>
+                        Hello! I'm Lokesh, a passionate and creative web developer based
+                        in Jaipur , Rajasthan. My journey into the world of code began
+                        with a fascination for how elegant design and powerful technology
+                        could come together to create amazing digital experiences.
+                    </p>
+                    <p>
+                        I specialize in front-end development, with a strong command of
+                        HTML, CSS, and JavaScript. I love bringing ideas to life in the
+                        browser and am always eager to learn new technologies and
+                        frameworks to enhance my skills. When I'm not coding, you can find
+                        me exploring the outdoors, reading a good book, or working on
+                        personal projects that challenge me to think outside the box.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <h2>My Projects</h2>
+            <div class="projects-container">
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2>Contact Me</h2>
+            <p>
+                I'm always open to discussing new projects or opportunities. Feel free
+                to reach out!
+            </p>
+            <!-- Inside your index.html file -->
+            <form id="contact-form" action="https://formspree.io/f/mykngjvo" method="POST">
+                <div>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+                </div>
+                <div>
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+                </div>
+                <div id="form-status"></div>
+
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Lokesh Saini. All Rights Reserved.</p>
+            <ul>
+                <li><a href="https://github.com/2024ucp1505" target="_blank" aria-label="View my GitHub-profile">GitHub</a></li>
+                <li><a href="https://linkedin.com/in/lokesh-saini-50973b324" target="_blank" aria-label="View my linkedIn profile">LinkedIn</a></li>
+                <li><a href="#" target="_blank" aria-label="View my Instagram profile">Instagram</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+
+</html>
