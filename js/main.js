@@ -1,147 +1,266 @@
-const themeToggle = document.querySelector('#theme-toggle');
-const htmlElement = document.documentElement;
-const menuToggle = document.querySelector('.menu-toggle');
-const nav = document.querySelector('nav');
+/* ── Cursor tracking ── */
+const cursorDot  = document.getElementById('cursor-dot');
+const cursorRing = document.getElementById('cursor-ring');
+let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
 
-themeToggle.addEventListener('change' , ()=>{
-    const newTheme = themeToggle.checked ? 'dark' : 'light';
-    htmlElement.setAttribute('data-theme' , newTheme);
-    localStorage.setItem('theme' , newTheme);
-});
+if (cursorDot && cursorRing) {
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursorDot.style.left = mouseX + 'px';
+    cursorDot.style.top  = mouseY + 'px';
+  });
 
-menuToggle.addEventListener('click', () => {
-    const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-    menuToggle.setAttribute('aria-expanded', !isExpanded);
-    nav.classList.toggle('active');
-});
-
-// Scroll Reveal Animation
-const revealElements = () => {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            }
-        });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-};
-
-const projects = [
-  {
-    title: "QR Attendance",
-    description: "A proxy-resistant, location-aware attendance system using geofencing and browser fingerprinting to ensure attendance integrity.",
-    imageUrl: "./images/project-placeholder-1.png",
-    liveUrl: "https://qr-attendance-1.vercel.app/",
-    codeUrl: "https://github.com/2024ucp1505/QR-Based-Attendance-system",
-    tech: ["React", "Node.js", "Express", "Geofencing"]
-  }, 
-  {
-    title: "Luxora",
-    description: "A full-featured property listing platform (Airbnb clone) with secure authentication, interactive maps, and cloud image management.",
-    imageUrl: "./images/project-placeholder-2.png",
-    liveUrl: "https://luxora-362e.onrender.com/listings",
-    codeUrl: "https://github.com/2024ucp1505/Luxora",
-    tech: ["Node.js", "Express", "MongoDB", "Cloudinary"]
-  },
-  {
-    title: "CloutFutures",
-    description: "A hybrid Web2/Web3 platform for creators and fans, utilizing smart contracts on the Monad (EVM) blockchain and IPFS storage.",
-    imageUrl: "./images/project-placeholder-3.png",
-    liveUrl: "#",
-    codeUrl: "https://github.com/2024ucp1505/CloutFutures",
-    tech: ["React", "Monad", "EVM", "Smart Contracts"]
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    cursorRing.style.left = ringX + 'px';
+    cursorRing.style.top  = ringY + 'px';
+    requestAnimationFrame(animateRing);
   }
-];
+  animateRing();
+}
 
-const renderProjects = () => {
-    const projectContainer = document.querySelector('.projects-container');
-    if (!projectContainer) return;
-    
-    let allProjectHTML = '';
-    projects.forEach(project => {
-        const techPills = project.tech.map(t => `<span class="tech-pill">${t}</span>`).join('');
-        const projectCardHTML = `
-      <div class="project-card">
-        <div class="project-image-container">
-            <img 
-              src="${project.imageUrl}" 
-              alt="${project.title}" 
-              class="project-image"
-            >
-        </div>
-        <div class="project-info">
-          <div class="tech-stack">${techPills}</div>
-          <h3>${project.title}</h3>
-          <p>${project.description}</p>
-        </div>
-        <div class="project-links">
-          <a href="${project.liveUrl}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Live Demo</a>
-          <a href="${project.codeUrl}" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">View Code</a>
-        </div>
-      </div>
-    `;
-     allProjectHTML += projectCardHTML;
-    });
-    projectContainer.innerHTML = allProjectHTML;
-};
-
-document.addEventListener('DOMContentLoaded' , () => {
-    // Restore theme
-    const savedTheme = localStorage.getItem('theme');
-    if(savedTheme){
-        htmlElement.setAttribute('data-theme' , savedTheme);
-        if(savedTheme == 'dark'){
-            themeToggle.checked = true;
-        }
-    }
-
-    renderProjects();
-    revealElements();
-
-    const contactForm = document.querySelector('#contact-form');
-    const formStatus = document.querySelector('#form-status');
-
-    if (contactForm) {
-        contactForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-
-            const formData = new FormData(contactForm);
-            const submitButton = contactForm.querySelector('button[type="submit"]');
-
-            formStatus.innerHTML = 'Sending...';
-            formStatus.className = 'info';
-            formStatus.style.display = 'block';
-            submitButton.disabled = true;
-
-            fetch(contactForm.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            }).then(response => {
-                if (response.ok) {
-                    formStatus.innerHTML = "Thank you! Your message has been sent.";
-                    formStatus.className = 'success';
-                    contactForm.reset();
-                } else {
-                    response.json().then(data => {
-                        if (Object.hasOwn(data, 'errors')) {
-                            formStatus.innerHTML = data["errors"].map(error => error["message"]).join(", ");
-                        } else {
-                            formStatus.innerHTML = "Oops! Something went wrong. Please try again later.";
-                        }
-                        formStatus.className = 'error';
-                    })
-                }
-            }).catch(error => {
-                formStatus.innerHTML = "Oops! A network error occurred. Please check your connection and try again.";
-                formStatus.className = 'error';
-            }).finally(() => {
-                submitButton.disabled = false;
-            });
-        });
-    }
+/* ── Loader ── */
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  if (loader) {
+    setTimeout(() => loader.classList.add('hidden'), 1800);
+  }
 });
+
+/* ── Navbar scroll effect ── */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  if (navbar) {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  }
+});
+
+/* ── Hamburger menu ── */
+const hamburger = document.getElementById('hamburger');
+const navLinks  = document.getElementById('nav-links');
+if (hamburger && navLinks) {
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      navLinks.classList.remove('open');
+    });
+  });
+}
+
+/* ── Active nav link on scroll ── */
+const sections = document.querySelectorAll('section[id]');
+const navItems = document.querySelectorAll('.nav-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navItems.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+      });
+    }
+  });
+}, { threshold: 0.4, rootMargin: '-80px 0px -60% 0px' });
+sections.forEach(s => observer.observe(s));
+
+/* ── Reveal on scroll ── */
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+revealEls.forEach(el => revealObserver.observe(el));
+
+/* ── Typewriter ── */
+const typewriterEl = document.getElementById('typewriter');
+const phrases = [
+  'Aspiring Software Engineer',
+  'DSA Enthusiast',
+  'Full-Stack Developer',
+  'Problem Solver',
+  'Competitive Programmer'
+];
+let phraseIdx = 0, charIdx = 0, isDeleting = false;
+
+function type() {
+  if (!typewriterEl) return;
+  const current = phrases[phraseIdx];
+  if (isDeleting) {
+    charIdx--;
+    typewriterEl.textContent = current.slice(0, charIdx);
+    if (charIdx === 0) { isDeleting = false; phraseIdx = (phraseIdx + 1) % phrases.length; }
+    setTimeout(type, 60);
+  } else {
+    charIdx++;
+    typewriterEl.textContent = current.slice(0, charIdx);
+    if (charIdx === current.length) { isDeleting = true; setTimeout(type, 2000); }
+    else { setTimeout(type, 110); }
+  }
+}
+setTimeout(type, 2000);
+
+/* ── Counter animation ── */
+function animateCounter(el) {
+  const target  = parseInt(el.getAttribute('data-target'), 10);
+  const duration = 2000;
+  const step     = target / (duration / 16);
+  let current = 0;
+
+  const update = () => {
+    current = Math.min(current + step, target);
+    el.textContent = Math.floor(current);
+    if (current < target) requestAnimationFrame(update);
+  };
+  update();
+}
+
+const counterEls = document.querySelectorAll('.stat-number, .lc-num');
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      counterObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+counterEls.forEach(el => counterObserver.observe(el));
+
+/* ── Skill bars ── */
+const skillFills = document.querySelectorAll('.skill-fill');
+const skillObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const w = entry.target.getAttribute('data-width');
+      entry.target.style.width = w + '%';
+      skillObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+skillFills.forEach(el => skillObserver.observe(el));
+
+/* ── Particles ── */
+const canvas = document.getElementById('particles-canvas');
+if (canvas) {
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let W, H;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); initParticles(); });
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x  = Math.random() * W;
+      this.y  = Math.random() * H;
+      this.vx = (Math.random() - 0.5) * 0.4;
+      this.vy = (Math.random() - 0.5) * 0.4;
+      this.r  = Math.random() * 2 + 0.5;
+      this.alpha = Math.random() * 0.5 + 0.1;
+      this.color = Math.random() > 0.5 ? '124,108,252' : '0,212,255';
+    }
+    update() {
+      this.x += this.vx; this.y += this.vy;
+      if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
+    }
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.fillStyle = `rgba(${this.color},1)`;
+      ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fill(); ctx.restore();
+    }
+  }
+
+  function initParticles() {
+    particles = Array.from({ length: 70 }, () => new Particle());
+  }
+  initParticles();
+
+  function drawConnections() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d  = Math.sqrt(dx * dx + dy * dy);
+        if (d < 120) {
+          ctx.save();
+          ctx.globalAlpha = (1 - d / 120) * 0.15;
+          ctx.strokeStyle = '#7c6cfc';
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke(); ctx.restore();
+        }
+      }
+    }
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => { p.update(); p.draw(); });
+    drawConnections();
+    requestAnimationFrame(loop);
+  }
+  loop();
+}
+
+/* ── Smooth scroll offset for fixed navbar ── */
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      const offset = 80;
+      window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+    }
+  });
+});
+
+/* ── Contact Form ── */
+const form = document.getElementById('contact-form');
+const statusEl = document.getElementById('form-status');
+const submitBtn = document.getElementById('submit-btn');
+
+if (form) {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' }
+      });
+      if (res.ok) {
+        statusEl.textContent = '✓ Message sent! I\'ll get back to you soon.';
+        statusEl.className = 'form-status success';
+        form.reset();
+      } else {
+        throw new Error('Network error');
+      }
+    } catch {
+      statusEl.textContent = '✗ Something went wrong. Try emailing me directly.';
+      statusEl.className = 'form-status error';
+    }
+
+    submitBtn.textContent = 'Send Message';
+    submitBtn.disabled = false;
+    setTimeout(() => { statusEl.textContent = ''; statusEl.className = 'form-status'; }, 5000);
+  });
+}
